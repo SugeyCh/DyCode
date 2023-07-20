@@ -1,0 +1,36 @@
+@font-face {
+	font-family: "facil";
+	src: url("./fonts/lato/Lato-Regular.ttf");
+}
+
+@font-face {
+	font-family: "menu";
+	src: url("./fonts/montserrat/static/Montserrat-Regular.ttf");
+}
+
+@font-face {
+	font-family: 'title';
+	src: url('./fonts/iwona/ttf/IwonaCondMedium-Regular.ttf');
+}
+
+@font-face {
+	font-family: 'letter';
+	src: url('./fonts/raleway/static/Raleway-SemiBold.ttf');
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: facil;
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+}
+
+.Nav {
+  background-color: white;
+  z-index: 10000;
+}

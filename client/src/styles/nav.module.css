@@ -1,0 +1,158 @@
+.footer{
+	color: #0c0c0ce7;
+	background: #fff;
+	padding: 20px;
+  width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.span{ padding: 7px 3px 0 0; }
+
+.logo{
+	border-radius: 20px;
+	height: 35px; 
+	width: 35px;
+	border: 2px solid rgba(0, 225, 255, 0.87);
+	margin-left: 10px;
+}
+
+.logo2{
+	border-radius: 20px;
+	height: 55px; 
+	width: 98px;
+}
+
+.title{
+	font-family: menu;
+	font-size: 27px;
+	color: green;
+}
+
+.close{
+	font-family: menu;
+	font-size: 17px;
+	padding: 6px;
+}
+
+.close:focus{ outline: none; }
+
+.input{
+	align-items: center;
+	width: 100%;
+	height: 27px;
+	font-family: menu;
+	color: rgba(53, 52, 52, 0.795);
+	border: 1px solid rgba(100, 100, 100, .3);
+	padding: 5px;
+	font-size: 18px;
+}
+
+.input:focus{ outline: none; }
+
+.direc{
+	position: relative;
+	right: 29em;
+	cursor: pointer;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	width: 100%;
+	min-height: 100vh;
+	grid-gap: 20px;
+	padding: 50px 100px 0px 100px;
+	margin-bottom: 50px;
+}
+
+.col{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.flo {
+	display: flex;
+	flex-direction: row;
+	height: 100vh;
+}
+
+.if{
+	width: 100%;
+	border: 0;
+	background: #fff;
+	border-radius: 5px;
+}
+
+.text{
+	height: 30%;
+	resize: none;
+	background-color: #0c0c0ccc;
+	padding: 24px;
+	margin-bottom: 5px;
+	font-size: 17px;
+	font-family: menu;
+	color: #fff;
+	box-shadow: 0 0 0 .1px rgba(255, 255, 255, .3);
+	border: none;
+	border-radius: 0 0 10px 10px;
+}
+
+.html{
+	background: rgba(255, 146, 4, 0.863);
+	border-radius: 10px 10px 0 0;
+	padding: 2px 0 1px 24px;
+	font-family: menu;
+	color: #e9ecef;
+	font-weight: bold;
+}
+
+.css{
+	background: rgba(25, 84, 245, 0.747);
+	border-radius: 10px 10px 0 0;
+	padding: 2px 0 1px 24px;
+	font-family: menu;
+	color: #e9ecef;
+	font-weight: bold;
+}
+
+.js{
+	background: rgba(255, 217, 0, 0.849);
+	border-radius: 10px 10px 0 0;
+	padding: 2px 0 1px 24px;
+	font-family: menu; 
+	color: #e9ecef;
+	font-weight: bold;
+}
+
+.text:focus{ outline: none; }
+
+.flex{
+	background-image: linear-gradient(
+		to bottom right,
+		#e9ecef,
+		#BBD2C5,
+		#536976,
+		#33415c,
+		#24243e,
+		#1f1c2cc0
+	);
+	padding: 20px;
+	background-size: 200% 200%;
+	animation: move 8s linear infinite alternate;
+}
+
+@keyframes move {
+	from { background-position: 0 0; }
+	to { background-position: 100% 100%; }
+}
+
+@media screen and (max-width: 768px) {
+	.grid { grid-template-columns: 1fr; }
+	.grid { padding: 50px 25px; }
+	.grid { margin-bottom: 0; }
+	.flex {	padding: 0; }
+	.text { height: 200px; }
+	.flex	{ background-size: 500%; }
+}
