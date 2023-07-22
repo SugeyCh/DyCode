@@ -1,31 +1,48 @@
-from django.db import models
+from django.db    import models
+from django.utils import timezone
 
 # Create your models here.
-class Estudiante(models.Model):
+class Role(models.Model):
+  role   = models.CharField(max_length=20, unique=True)
+  module = models.ForeignKey('Module', on_delete=models.CASCADE, related_name='roles', null=True)
+
+  def __str__(self):
+    return self.role
+
+
+class User(models.Model):
   name     = models.CharField(max_length=100)
   email    = models.EmailField(max_length=50, unique=True)
   password = models.CharField(max_length=100)
+  role     = models.ForeignKey(Role, on_delete=models.CASCADE, default = 2)
+  date_reg = models.DateTimeField(default=timezone.now)
   
   def __str__(self):
-    return self.name + ' - ' + self.email
+    return f"{self.id} - {self.role} - {self.name}"
 
-class Nivel_Acceso(models.Model):
-  profesor   = models.CharField(max_length=25)
-  estudiante = models.CharField(max_length=25)
 
-class Usuario(models.Model):
-  name     = models.CharField(max_length=100)
-  email    = models.EmailField(max_length=50, unique=True)
-  password = models.CharField(max_length=50)
-  acceso   = models.ForeignKey(Nivel_Acceso, on_delete=models.CASCADE)
+class Module(models.Model):
+  create_user    = models.BooleanField(default=False)
+  edit_user      = models.BooleanField(default=False)
+  delete_user    = models.BooleanField(default=False)
+  create_project = models.BooleanField(default=False)
+  assess_project = models.BooleanField(default=False)
+  
+  def __str__(self):
+    return f'Module: {self.id}'
+
 
 class Proyecto(models.Model):
-  name    = models.CharField(max_length=70)
-  archivo = models.CharField(max_length=100)
+  name  = models.CharField(max_length=70)
+  field = models.CharField(max_length=100)
+ 
  
 class Workspace(models.Model):
-  participantes = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+  participantes = models.ForeignKey(User, on_delete=models.CASCADE)
   proyecto      = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
   
-class Estudiante_Eliminado(models.Model):
-  data = models.ForeignKey(Usuario, on_delete=models.CASCADE) 
+  
+class UserRespaldo(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    role = models.CharField(max_length=50)

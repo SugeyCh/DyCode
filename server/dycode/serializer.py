@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models        import Estudiante
+from .models        import User, UserRespaldo
 import bcrypt
 
-class EstudianteSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
   password = serializers.CharField(write_only = True)
   
   class Meta:
-    model  = Estudiante
+    model  = User
     fields = '__all__'
     
   def create(self, validated_data):
@@ -14,6 +14,7 @@ class EstudianteSerializer(serializers.ModelSerializer):
     passhash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     validated_data['password'] = passhash.decode('utf-8')
     return super().create(validated_data)
+
 
 class LoginSerializer(serializers.Serializer):
   email    = serializers.CharField()
@@ -24,11 +25,13 @@ class LoginSerializer(serializers.Serializer):
     password = data.get('password')
     
     try:
-      user = Estudiante.objects.get(email = email)
-    except Estudiante.DoesNotExist:
+      user = User.objects.get(email = email)
+    except User.DoesNotExist:
       raise serializers.ValidationError('No se encontró un usuario')
     
     if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
       raise serializers.ValidationError('Contraseña incorrecta')
     
     return data
+  
+    

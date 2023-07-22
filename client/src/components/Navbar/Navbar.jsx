@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { Navbar, Dropdown, Button, Link, Text } from "@nextui-org/react"
 import Image from "next/image"
-import { Layout } from "./Layout.js"
-import { icons }  from "./Icons.js"
+import { Layout } from "./Layout.jsx"
+import { icons }  from "./Icons.jsx"
 import logo from '@/pub/images/logo-dycode.jpg'
 import styles from '@/sty/nav.module.css'
 import { Modal, Input, Row, Popover } from "@nextui-org/react"
