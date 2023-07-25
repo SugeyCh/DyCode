@@ -32,6 +32,22 @@ class Module(models.Model):
     return f'Module: {self.id}'
 
 
+class UserAudit(models.Model):
+  ACTION_CHOICES = (
+    ('C', 'create'),
+    ('U', 'update'),
+    ('D', 'delete'),
+    ('R', 'restore')
+  )
+  
+  user   = models.ForeignKey(User, on_delete=models.CASCADE, related_name="audits", null=True)
+  action = models.CharField(max_length=1, choices=ACTION_CHOICES)
+  date   = models.DateTimeField(default=timezone.now)
+  
+  def __str__(self):
+    return f'Auditoria del usuario: {self.user.name} - Acción: {self.get_action_display()}'
+  
+
 class Proyecto(models.Model):
   name  = models.CharField(max_length=70)
   field = models.CharField(max_length=100)

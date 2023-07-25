@@ -1,22 +1,36 @@
 import Image       from "next/image"
+import Link        from "next/link"
 import { useForm } from "react-hook-form"
 import instance    from "@/src/conn/axios"
 import styles      from '@/sty/register.module.css'
 import logo        from '@/pub/img/dycode-logo2.png'
+import toast, { Toaster }      from 'react-hot-toast'
 
 const FormRegister = () => {
+  const notifySucces = (msg) => { toast.success(msg) }
+  const notifyError  = (msg) => { toast.error(msg) }
+
   const { register, handleSubmit } = useForm()
-  const onSubmit = handleSubmit(async (data) => { 
-    await instance.post('/estudiante/', data)
+  const onSubmit = handleSubmit((data) => { 
+    instance.post('/dycode/register/', data)
+    .then((result) => {
+      notifySucces(result.data.message)
+
+      window.location.assign('/login')
+    })
+    .catch((err) => {
+      notifyError(err.response.data.email[0])
+    })
   })
 
   return(
     <>
       <div className={ styles.body }>
+      <Toaster position="top-right" reverseOrder={true} duration={5000}/>
         <div className={ styles.general }>
           <div className={ styles.card }>
             <div className={ styles.img } id="animacion">
-              <Image src={ logo } className={ styles.logo } alt="Logo DyCode"/>
+              <Image src={ logo } className={ styles.logo } alt="Logo DyCode" priority={ true } />
             </div>
             <div className={ styles.light }></div>
           </div>
@@ -74,9 +88,9 @@ const FormRegister = () => {
               </div>
             </form>
             <div className={ styles.login }>
-              <a href="/login/login">
+              <Link href="/login">
                 <p>¿Ya tienes una cuenta?</p> <span className="material-symbols-outlined"> trending_flat </span>	
-              </a> 
+              </Link> 
             </div>
           </div>
         </div>

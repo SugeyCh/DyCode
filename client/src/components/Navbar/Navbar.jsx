@@ -1,22 +1,29 @@
 import React, { useState } from "react"
+import Image               from "next/image"
+import { Layout }          from "./Layout.jsx"
+import { icons }           from "./Icons.jsx"
+import logo                from '@/pub/images/logo-dycode.jpg'
+import styles              from '@/sty/nav.module.css'
+import { removeCookie }    from "../cookies.tsx"
 import { Navbar, Dropdown, Button, Link, Text } from "@nextui-org/react"
-import Image from "next/image"
-import { Layout } from "./Layout.jsx"
-import { icons }  from "./Icons.jsx"
-import logo from '@/pub/images/logo-dycode.jpg'
-import styles from '@/sty/nav.module.css'
-import { Modal, Input, Row, Popover } from "@nextui-org/react"
+import { Modal, Input, Row, Popover }           from "@nextui-org/react"
 
-export default function Nav () {
+export default function Nav ({ email }) {
   const [visible, setVisible] = useState(false)
+  const [showNav, setShowNav] = useState(false)
   const [width, setWidth]     = useState("50%")
 
   const handler = () => {
     if (window.innerWidth < 768) { setWidth("90%") }
     setVisible(true)
   }
-
   const closeHandler = () => { setVisible(false) }
+  
+  const logout = () => {
+    removeCookie('email')
+  }
+
+  console.log(email)
 
   return (
     <Layout>
@@ -151,13 +158,13 @@ export default function Nav () {
         </Navbar.Content>
         </Navbar.Brand>
         
-        <Navbar.Content>
+        <Navbar.Content className={`${!showNav ? "hidden" : ""}`}>
           <Navbar.Link color="inherit" href="#">
-            Sign Up
+            { email }  
           </Navbar.Link>
           <Navbar.Item>
             <Button auto flat as={Link} href="#">
-              Log In
+              <Link href="/login" title="Log out" onClick={ logout }>Log Out</Link>
             </Button>
           </Navbar.Item>
         </Navbar.Content>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models        import User, UserRespaldo
+from .models        import User, UserAudit
 import bcrypt
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,11 +27,14 @@ class LoginSerializer(serializers.Serializer):
     try:
       user = User.objects.get(email = email)
     except User.DoesNotExist:
-      raise serializers.ValidationError('No se encontró un usuario')
+      raise serializers.ValidationError('El correo no está registrado')
     
     if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
       raise serializers.ValidationError('Contraseña incorrecta')
     
     return data
   
-    
+class UserAuditSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = UserAudit
+    fields = '__all__'

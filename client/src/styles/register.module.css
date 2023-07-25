@@ -129,7 +129,8 @@
 .title{
 	padding-left: 40px;
 	margin-bottom: 34px; 
-	font-size: 22px;
+	font-size: 27px;
+	font-weight: bolder;
 }
 
 .title h3{ font-family: title; }
