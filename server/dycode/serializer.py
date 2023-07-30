@@ -1,21 +1,25 @@
-from rest_framework import serializers
-from .models        import User, UserAudit
+from django.contrib.auth.hashers import check_password 
+from rest_framework              import serializers
+from .models                     import User, UserAudit
 import bcrypt
 
-class UserSerializer(serializers.ModelSerializer):
-  password = serializers.CharField(write_only = True)
-  
+# Trae todos los usuarios
+class Users(serializers.ModelSerializer):
   class Meta:
-    model  = User
-    fields = '__all__'
-    
-  def create(self, validated_data):
-    password = validated_data.pop('password')
-    passhash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    validated_data['password'] = passhash.decode('utf-8')
-    return super().create(validated_data)
+    model = User
+    fields = ['id', 'name', 'email', 'password','date_reg']
+
+# Validación de password registro de usuarios
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['name', 'email', 'password', 'role', 'date_reg']
+    extra_kwargs = {
+      'password': {'write_only': True},  # La contraseña solo será escrita (no incluida en la respuesta)
+    }
 
 
+# Validación de email y password registro de usuario
 class LoginSerializer(serializers.Serializer):
   email    = serializers.CharField()
   password = serializers.CharField()
@@ -27,14 +31,35 @@ class LoginSerializer(serializers.Serializer):
     try:
       user = User.objects.get(email = email)
     except User.DoesNotExist:
+      print(email)
       raise serializers.ValidationError('El correo no está registrado')
     
-    if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+    if not check_password(password, user.password):
       raise serializers.ValidationError('Contraseña incorrecta')
     
     return data
-  
+
+
+class UserEditSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['id', 'name', 'email', 'password', 'date_reg']
+    extra_kwargs = {
+      'password': {'write_only': True}  # Para asegurarnos de que el campo 'password' solo se use para escribir, no para leer.
+    }
+
+
+# Traer todas las auditorias  
 class UserAuditSerializer(serializers.ModelSerializer):
   class Meta:
     model = UserAudit
     fields = '__all__'
+    
+# Trae datos para editar información de usario
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['id', 'name', 'email', 'password', 'role', 'date_reg']
+    extra_kwargs = {
+      'password': {'write_only': True}  # Para asegurarnos de que el campo 'password' solo se use para escribir, no para leer.
+    }

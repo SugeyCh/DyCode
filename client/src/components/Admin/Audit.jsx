@@ -3,11 +3,10 @@ import React, { useState }     from "react"
 import Image                   from 'next/image'
 import Link                    from 'next/link'
 import student                 from '@/pub/img/student.jpg'
-import TableUser               from './TableUser'
-import Project                 from './Projects'
+import TableAudit              from './TableAudit'
 
 
-export default function View() {
+export default function Audit() {
   const [visible, setVisible] = useState(false)
   const handler = () => setVisible(true)
   const closeHandler = () => {
@@ -20,7 +19,7 @@ export default function View() {
       <div className='flex flex-col justify-center items-center body '>
         <Link
           href="#"
-          className="flex flex-col items-center h-60 bg-white border border-gray-200 mt-10 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="flex flex-col items-center h-60 bg-white border border-gray-200 my-10 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <Image
             className="object-cover w-full h-60 rounded-t-lg h-100 md:w-48 md:rounded-none md:rounded-l-lg"
@@ -29,10 +28,10 @@ export default function View() {
           />
           <div className="flex flex-col justify-between p-4 leading-normal">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Lista de estudiantes
+              Notas
             </h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              Aquí encontraras la lista de tus estudiantes, si deseas descargarlo dale clic al botón
+              Aquí encontraras las notas de los proyectos, si deseas descargarlo dale clic al botón
             </p>
             <Link href="#" class="inline-flex items-center w-40 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={ handler }>
               Descargar
@@ -53,11 +52,11 @@ export default function View() {
         >
           <Modal.Header>
             <Text id="modal-title" size={18}>
-              Lista de Estudiantes
+              Lista de Notas
             </Text>
           </Modal.Header>
           <Modal.Body>
-            <TableUser />
+            <TableAudit />
           </Modal.Body>
           <Modal.Footer>
             <Button shadow color="primary" auto onPress={ closeHandler }>
@@ -65,8 +64,6 @@ export default function View() {
             </Button>
           </Modal.Footer>
         </Modal>
-
-        <Project />
       </div> 
     </>
   )

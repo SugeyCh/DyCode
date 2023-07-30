@@ -1,5 +1,6 @@
-from django.db    import models
-from django.utils import timezone
+from django.contrib.auth.hashers import make_password
+from django.db                   import models
+from django.utils                import timezone
 
 # Create your models here.
 class Role(models.Model):
@@ -11,14 +12,18 @@ class Role(models.Model):
 
 
 class User(models.Model):
-  name     = models.CharField(max_length=100)
-  email    = models.EmailField(max_length=50, unique=True)
-  password = models.CharField(max_length=100)
-  role     = models.ForeignKey(Role, on_delete=models.CASCADE, default = 2)
-  date_reg = models.DateTimeField(default=timezone.now)
-  
-  def __str__(self):
-    return f"{self.id} - {self.role} - {self.name}"
+    name     = models.CharField(max_length=50)
+    email    = models.EmailField(max_length=50, unique=True)
+    password = models.CharField(max_length=250)
+    role     = models.ForeignKey(Role, on_delete=models.CASCADE, default=1)
+    date_reg = models.DateTimeField(default=timezone.now)
+    
+    def save(self, *args, **kwargs):
+      self.password = make_password(self.password)  # Hashear la contraseña antes de guardarla
+      super().save(*args, **kwargs)
+
+    def __str__(self):
+      return f"{self.id} - {self.role} - {self.name}"
 
 
 class Module(models.Model):
@@ -50,6 +55,7 @@ class UserAudit(models.Model):
 
 class Proyecto(models.Model):
   name  = models.CharField(max_length=70)
+  user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name="proyect", null=True)
   field = models.CharField(max_length=100)
  
  
@@ -59,6 +65,7 @@ class Workspace(models.Model):
   
   
 class UserRespaldo(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    role = models.CharField(max_length=50)
+  name  = models.CharField(max_length=100)
+  email = models.EmailField()
+  role  = models.CharField(max_length=50)
+  date  = models.DateTimeField(default=timezone.now)

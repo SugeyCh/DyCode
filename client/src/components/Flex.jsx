@@ -38,7 +38,7 @@ const Flex = () => {
   }, [html, css, js, lang])
   
   return (
-    <div>
+    <>
       <div className={styles.grid}>
         <div className={styles.col}>
           <label    className={styles.html}>Html</label>
@@ -56,7 +56,7 @@ const Flex = () => {
           <iframe className={styles.if} srcDoc={paper}/>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

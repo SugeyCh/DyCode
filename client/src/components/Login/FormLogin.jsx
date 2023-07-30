@@ -30,6 +30,10 @@ const FormLogin = () => {
       window.location.assign('/home')
     })
     .catch((err) => {
+      if (err.code === 'ERR_BAD_RESPONSE') {
+        notifyError('Ha ocurrido un error')
+      }
+
       notifyError(err.response.data.non_field_errors)
     })
   }

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import instance    from "@/src/conn/axios"
 import styles      from '@/sty/register.module.css'
 import logo        from '@/pub/img/dycode-logo2.png'
-import toast, { Toaster }      from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 
 const FormRegister = () => {
   const notifySucces = (msg) => { toast.success(msg) }

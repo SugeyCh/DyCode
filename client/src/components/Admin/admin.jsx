@@ -3,11 +3,12 @@ import React, { useState }     from "react"
 import Image                   from 'next/image'
 import Link                    from 'next/link'
 import student                 from '@/pub/img/student.jpg'
-import TableUser               from './TableUser'
-import Project                 from './Projects'
+import TableTeacher            from './TableTeacher'
+import Student                 from './Student'
+import Audit                   from './Audit'
 
 
-export default function View() {
+export default function Admin() {
   const [visible, setVisible] = useState(false)
   const handler = () => setVisible(true)
   const closeHandler = () => {
@@ -29,10 +30,10 @@ export default function View() {
           />
           <div className="flex flex-col justify-between p-4 leading-normal">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Lista de estudiantes
+              Lista de Profesores
             </h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              Aquí encontraras la lista de tus estudiantes, si deseas descargarlo dale clic al botón
+              Aquí encontraras la lista de profesores, si deseas descargarlo dale clic al botón
             </p>
             <Link href="#" class="inline-flex items-center w-40 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={ handler }>
               Descargar
@@ -57,7 +58,7 @@ export default function View() {
             </Text>
           </Modal.Header>
           <Modal.Body>
-            <TableUser />
+            <TableTeacher />
           </Modal.Body>
           <Modal.Footer>
             <Button shadow color="primary" auto onPress={ closeHandler }>
@@ -66,7 +67,8 @@ export default function View() {
           </Modal.Footer>
         </Modal>
 
-        <Project />
+        <Student />
+        <Audit />
       </div> 
     </>
   )

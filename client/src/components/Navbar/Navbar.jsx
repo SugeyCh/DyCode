@@ -23,7 +23,7 @@ export default function Nav ({ email }) {
     removeCookie('email')
   }
 
-  console.log(email)
+  
 
   return (
     <Layout>
@@ -115,7 +115,8 @@ export default function Nav ({ email }) {
                 showFullDescription
                 icon={icons.profile}
               >
-                My profile
+                <span onClick={handler}>My profile</span>
+                
               </Dropdown.Item>
               <Dropdown.Item
                 key="friends"
@@ -160,7 +161,8 @@ export default function Nav ({ email }) {
         
         <Navbar.Content className={`${!showNav ? "hidden" : ""}`}>
           <Navbar.Link color="inherit" href="#">
-            { email }  
+            <span>{ email }</span>
+            
           </Navbar.Link>
           <Navbar.Item>
             <Button auto flat as={Link} href="#">

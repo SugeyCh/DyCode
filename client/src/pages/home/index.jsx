@@ -4,6 +4,19 @@ import styles        from "@/sty/nav.module.css"
 import Nav           from "@/com/Navbar/Navbar"
 import { getCookie } from "@/com/cookies.tsx"
 
+export async function getServerSideProps ({ req }) {
+  const email    = getCookie('email', req)
+  if (email == 'undefined' || email == 'null') {
+    return window.location.assign('/login')
+  }
+
+  return {
+    props: {
+      email: email,
+    }
+  }
+}
+
 export default function Home({ email }) {
   return (
     <>
@@ -18,15 +31,3 @@ export default function Home({ email }) {
   )
 }
 
-/* export async function getServerSideProps ({ req }) {
-  const email    = getCookie('email', req)
-  if (email == 'undefined' || email == 'null') {
-    return window.location.assign('/login')
-  }
-
-  return {
-    props: {
-      email: email,
-    }
-  }
-} */

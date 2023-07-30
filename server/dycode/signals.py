@@ -3,23 +3,30 @@ from django.dispatch          import receiver
 from .models                  import User, UserRespaldo
 from django.dispatch          import receiver
 
-@receiver(pre_delete, sender = User)
-def respaldo(sender, instance, **kwargs):
-  UserRespaldo.objects.create(
-    name  = instance.name,
-    email = instance.email,
-    role  = instance.role
-  )
+# DISPARADOR DE DELETE (se después de que un usuario ha sido elimanado)
+def delete_handler(sender, instance, **kwargs):
+    # Verificar si el registro existe en User antes de insertar en UserRespaldo
+    if User.objects.filter(id=instance.id).exists():
+        user_data = {
+            'name': instance.name,
+            'email': instance.email,
+            'role': instance.role,
+        }
+        UserRespaldo.objects.create(**user_data)
+
+@receiver(post_delete, sender=User)
+def delete_trigger(sender, instance, **kwargs):
+    delete_handler(sender, instance, **kwargs)
 
 
-@receiver([post_save, post_delete])
+# DISPARADOR CREATE AND UPDATE (se activa después de que un usuario crea o edita)
+@receiver([post_save])
 def create_user_audit(sender, instance, **kwargs):
     from .models import UserAudit
 
     # Define un diccionario para mapear acciones según el tipo de señal
     action_mapping = {
-        post_save: 'C' if kwargs.get('created') else 'U',
-        post_delete: 'D'
+        post_save: 'C' if kwargs.get('created') else 'U'
     }
 
     # Si la instancia es un modelo UserAudit, no registramos la auditoría para evitar bucles infinitos
