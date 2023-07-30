@@ -1,13 +1,13 @@
 from django.contrib.auth.hashers import check_password 
 from rest_framework              import serializers
 from .models                     import User, UserAudit
-import bcrypt
 
 # Trae todos los usuarios
 class Users(serializers.ModelSerializer):
   class Meta:
     model = User
     fields = ['id', 'name', 'email', 'password','date_reg']
+
 
 # Validación de password registro de usuarios
 class UserSerializer(serializers.ModelSerializer):
@@ -39,7 +39,7 @@ class LoginSerializer(serializers.Serializer):
     
     return data
 
-
+# Trae datos para editar información de usuario
 class UserEditSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
@@ -55,11 +55,3 @@ class UserAuditSerializer(serializers.ModelSerializer):
     model = UserAudit
     fields = '__all__'
     
-# Trae datos para editar información de usario
-class UserSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = ['id', 'name', 'email', 'password', 'role', 'date_reg']
-    extra_kwargs = {
-      'password': {'write_only': True}  # Para asegurarnos de que el campo 'password' solo se use para escribir, no para leer.
-    }

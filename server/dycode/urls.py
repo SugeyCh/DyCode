@@ -12,6 +12,7 @@ urlpatterns = [
   path('dycode/user/respaldo/', views.respaldo, name="respaldo"), #tabla de respaldo de los usuarios eliminados (GET)
   path('dycode/audit/', views.UserAuditListCreateView.as_view(), name='list'), #auditoria de usuario, se puede crear y ver (POST)
   path('dycode/view/users/', views.UserListView.as_view(), name='users' ), #lista de todos los usuarios registrados (GET)
+  path('dycode/view/user/<str:email>/', views.GetUserByEmail.as_view(), name='user'), #trae un usuario por el email (GET)
   path('dycode/users/<int:pk>/', views.UserUpdateView.as_view(), name='user-update'), #edita un usuario por el id (PATH)
   path('dycode/delete/user/<int:user_id>/', views.delete_user, name='delete'), #elimina usuarios por el id (DELETE)
   

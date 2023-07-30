@@ -7,7 +7,12 @@ import { getCookie } from "@/com/cookies.tsx"
 export async function getServerSideProps ({ req }) {
   const email    = getCookie('email', req)
   if (email == 'undefined' || email == 'null') {
-    return window.location.assign('/login')
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
   }
 
   return {

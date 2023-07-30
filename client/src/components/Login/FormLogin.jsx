@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { redirect }            from 'next/navigation'
 import toast, { Toaster }      from 'react-hot-toast'
 import Image                   from "next/image"
 import Link                    from "next/link"

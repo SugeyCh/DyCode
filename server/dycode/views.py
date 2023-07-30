@@ -1,12 +1,10 @@
 from rest_framework.decorators       import api_view
+from rest_framework.views            import APIView
 from rest_framework.response         import Response
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers     import check_password
-from django.contrib.auth             import authenticate
-from rest_framework                  import  status, generics, permissions
+from rest_framework                  import  status, generics
 from .serializer                     import UserSerializer, Users, LoginSerializer, UserAuditSerializer, UserEditSerializer
 from .models                         import User, UserAudit, UserRespaldo
-import bcrypt
 
 # Create your views here. 
 
@@ -62,13 +60,12 @@ def login(request):
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
-
 # Trae todos los usuarios que han sido eliminados
 @api_view(['GET'])
 def respaldo(request):
   request.data.pop('password')
   response = { 
-    'msg': 'Usuario añadido al respaldo exitosamente', 
+    'msg': 'Usuario eliminado exitosamente', 
     'data': request.data 
   }
   return Response(response, status = status.HTTP_200_OK)
@@ -85,6 +82,23 @@ class UserAuditListCreateView(generics.ListCreateAPIView):
 class UserListView(generics.ListAPIView):
   queryset = User.objects.all()
   serializer_class = Users
+  
+# Trae a un usuario por el email
+class GetUserByEmail(APIView):
+  def get(self, request, *args, **kwargs):
+    email = kwargs.get('email', None)
+
+    if not email:
+      return Response({'message': 'Debes proporcionar un correo electrónico válido.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+      user = User.objects.get(email=email)
+    except User.DoesNotExist:
+      return Response({'message': 'No se encontró ningún usuario con este correo electrónico.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Users(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # Editar los usuarios
 class UserUpdateView(generics.UpdateAPIView):

@@ -1,9 +1,9 @@
-from django.db.models.signals import pre_delete, post_save, post_delete
+from django.db.models.signals import post_save, post_delete
 from django.dispatch          import receiver
 from .models                  import User, UserRespaldo
 from django.dispatch          import receiver
 
-# DISPARADOR DE DELETE (se después de que un usuario ha sido elimanado)
+# DISPARADOR DE DELETE (se activa después de que un usuario ha sido elimanado)
 def delete_handler(sender, instance, **kwargs):
     # Verificar si el registro existe en User antes de insertar en UserRespaldo
     if User.objects.filter(id=instance.id).exists():

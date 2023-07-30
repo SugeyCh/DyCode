@@ -34,6 +34,19 @@ body {
   min-height: 100vh;
 }
 
+body::-webkit-scrollbar{
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb{
+  background: rgba(101, 112, 117, 0.849);
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb:hover{
+  background: rgba(91, 97, 100, 0.849);
+}
+
 .Nav {
   background-color: white;
   z-index: 10000;
