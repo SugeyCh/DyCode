@@ -1,13 +1,16 @@
+import { useRouter }           from 'next/router'
+import { decode, encode }      from 'base-64'
 import styles                  from '@/sty/nav.module.css'
 import { useEffect, useState } from 'react'
 import { createHtml }          from './createHtml'
-import { Button } from '@nextui-org/react'
+import { Button }              from '@nextui-org/react'
 
 const Flex = () => {
   const [html, setHtml]   = useState('')
   const [css, setCss]     = useState('')
   const [js, setJs]       = useState('')
   const [lang, setLang]   = useState('en')
+  const [code, setCode]   = useState('')
   const [paper, setPaper] = useState(createHtml(html, css, js, lang))
 
   const handleInput = (e) => {
@@ -22,6 +25,22 @@ const Flex = () => {
     else if (id === 'css')  setCss(val)
     else setJs(document.querySelector('#js').value)
 
+    const URL = () => {
+      const router = useRouter()
+      
+      useEffect(() => {
+        const { code: encodedCode } = router.query
+        if (encodedCode) {
+          const decodedCode = decode(encodedCode)
+          setCode(decodedCode)
+
+          const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+      const url = `http://localhost:3000/home?code=${hashedCode}`
+      window.history.replaceState(null, null, url)
+        }
+      }, [router.query])
+    }
+    
   /* const {pathname} = window.location
   const[rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
   
@@ -29,7 +48,7 @@ const Flex = () => {
   const css  = window.atob(rawCss)
   const js   = window.atob(rawJs)
 
-  const hashedCode = `${window.btoa(html)}|${window.btoa(css)}|${window.btoa(js)}`
+  
   window.history.replaceState(null, null, `${hashedCode}`) */
 }
 

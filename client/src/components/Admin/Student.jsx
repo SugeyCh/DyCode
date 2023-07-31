@@ -19,7 +19,7 @@ export default function Student() {
       <div className='flex flex-col justify-center items-center body '>
         <Link
           href="#"
-          className="flex flex-col items-center h-60 bg-white border border-gray-200 mt-10 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="flex flex-col items-center h-60 bg-white border border-gray-200 mt-10 my-10 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <Image
             className="object-cover w-full h-60 rounded-t-lg h-100 md:w-48 md:rounded-none md:rounded-l-lg"

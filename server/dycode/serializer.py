@@ -1,12 +1,12 @@
 from django.contrib.auth.hashers import check_password 
 from rest_framework              import serializers
-from .models                     import User, UserAudit
+from .models                     import User, UserAudit, Proyecto, UserRespaldo
 
 # Trae todos los usuarios
 class Users(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ['id', 'name', 'email', 'password','date_reg']
+    fields = ['id', 'name', 'email', 'role', 'password', 'date_reg']
 
 
 # Validación de password registro de usuarios
@@ -53,5 +53,17 @@ class UserEditSerializer(serializers.ModelSerializer):
 class UserAuditSerializer(serializers.ModelSerializer):
   class Meta:
     model = UserAudit
+    fields = '__all__'
+
+# Trae todos los proyectos
+class ProyectoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Proyecto
+        fields = '__all__'
+        
+# Trae todos los usuarios que han sido eliminados y almacenados en la tabla de respaldo
+class UserRespaldoSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = UserRespaldo
     fields = '__all__'
     

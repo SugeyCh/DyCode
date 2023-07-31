@@ -41,7 +41,8 @@ export default function Project () {
         </div>
       </Link>
       <Modal
-        width="100%"
+        scroll
+        width="70%"
         closeButton
         blur
         aria-labelledby="modal-title"

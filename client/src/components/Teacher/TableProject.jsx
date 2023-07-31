@@ -1,4 +1,19 @@
+import Link                    from "next/link"
+import { useState, useEffect } from "react"
+import instance                from "@/src/conn/axios"
+
 export default function TableProject () {
+  const [ rows, setRows ] = useState([])
+  useEffect(() => {
+    instance.get('/dycode/projects/')
+    .then((res) => {
+      setRows(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [rows])
+
   return(
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -20,17 +35,16 @@ export default function TableProject () {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                1
-              </th>
-              <td className="px-6 py-4">Sugey</td>
-              <td className="px-6 py-4">sugey@root.com</td>
-              <td className="px-6 py-4">15/11/03</td>
-            </tr>
+            {rows.map((row) => (
+              <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {row.id}
+                </th>
+                <td className="px-6 py-4">{row.user}</td>
+                <td className="px-6 py-4">{row.name}</td>
+                <Link href={row.field}><td className="px-6 py-4">{row.field}</td></Link>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

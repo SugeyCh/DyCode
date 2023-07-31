@@ -90,13 +90,37 @@ export default function Nav ({ email }) {
       console.log(err)
     })
   }
+
+  const Project = () => {
+    const name  = document.getElementById('project').value
+    const field = document.getElementById('url').value
+    
+
+    instance.get(`/dycode/view/user/${email}/`)
+    .then((result) => {
+      let project = {
+        'name': name, 
+        'field': field,
+        'user': result.data.id
+      }
+      instance.post('/dycode/projects/', project)
+      .then((result) => {
+        notifySucces('Project created successfully')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
   
   return (
     <Layout>
       
       <Modal
         closeButton
-        aria-labelledby="modal-title"
         blur
 				width={width}
 				height='40px'
@@ -138,7 +162,6 @@ export default function Nav ({ email }) {
         closeButton
         blur
         width="40%"
-        aria-labelledby="modal-title"
         open={show}
         onClose={close}
       >
@@ -191,10 +214,11 @@ export default function Nav ({ email }) {
       <Modal
         closeButton
         blur
-        aria-labelledby="modal-title"
+        width="40%"
         open={save}
         onClose={exit}
       >
+        <Toaster position="top-right" reverseOrder={true} duration={5000}/>
         <Modal.Header>
           <Text id="modal-title" size={18}>
             Save
@@ -210,7 +234,8 @@ export default function Nav ({ email }) {
             fullWidth
             color="primary"
             size="lg"
-            placeholder="Project Name"
+            id="project"
+            label="Name of project"
           />
           <Input
             clearable
@@ -218,22 +243,15 @@ export default function Nav ({ email }) {
             fullWidth
             color="primary"
             size="lg"
-            placeholder="Name User"
-          />
-          <Input
-            clearable
-            bordered
-            fullWidth
-            color="primary"
-            size="lg"
-            placeholder="URL Project"
+            id="url"
+            label="URL of project"
           />
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onPress={exit}>
             Close
           </Button>
-          <Button auto onPress={exit}>
+          <Button auto onPress={Project}>
             Save
           </Button>
         </Modal.Footer>

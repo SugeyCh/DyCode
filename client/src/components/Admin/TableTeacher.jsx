@@ -1,4 +1,18 @@
+import { useState, useEffect } from "react"
+import instance                from "@/src/conn/axios"
+
 export default function TableTeacher () {
+  const [ rows, setRows ] = useState([])
+  useEffect(() => {
+    instance.get('/dycode/docent/')
+    .then((res) => {
+      setRows(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [rows])
+
   return(
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -14,19 +28,22 @@ export default function TableTeacher () {
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
+              <th scope="col" className="px-6 py-3">
+                Date
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                1
-              </th>
-              <td className="px-6 py-4">Sugey</td>
-              <td className="px-6 py-4">sugey@root.com</td>
-            </tr>
+            {rows.map((row) => (
+              <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {row.id}
+                </th>
+                <td className="px-6 py-4">{row.name}</td>
+                <td className="px-6 py-4">{row.email}</td>
+                <td className="px-6 py-4">{row.date_reg}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

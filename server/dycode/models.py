@@ -55,7 +55,7 @@ class UserAudit(models.Model):
 
 class Proyecto(models.Model):
   name  = models.CharField(max_length=70)
-  user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name="proyect", null=True)
+  user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name="proyecto", null=True)
   field = models.CharField(max_length=250)
  
  

@@ -45,7 +45,7 @@ export default function Admin() {
         </Link>
         <Modal
           scroll
-          width="100%"
+          width="55%"
           closeButton
           blur
           aria-labelledby="modal-title"
@@ -54,7 +54,7 @@ export default function Admin() {
         >
           <Modal.Header>
             <Text id="modal-title" size={18}>
-              Lista de Estudiantes
+              Lista de Profesores
             </Text>
           </Modal.Header>
           <Modal.Body>
@@ -68,7 +68,7 @@ export default function Admin() {
         </Modal>
 
         <Student />
-        <Audit />
+        {/* <Audit /> */}
       </div> 
     </>
   )

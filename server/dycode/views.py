@@ -3,8 +3,8 @@ from rest_framework.views            import APIView
 from rest_framework.response         import Response
 from django.contrib.auth.hashers     import check_password
 from rest_framework                  import  status, generics
-from .serializer                     import UserSerializer, Users, LoginSerializer, UserAuditSerializer, UserEditSerializer
-from .models                         import User, UserAudit, UserRespaldo
+from .serializer                     import UserSerializer, Users, LoginSerializer, UserAuditSerializer, UserEditSerializer, ProyectoSerializer, UserRespaldoSerializer
+from .models                         import User, UserAudit, UserRespaldo, Proyecto
 
 # Create your views here. 
 
@@ -63,7 +63,6 @@ def login(request):
 # Trae todos los usuarios que han sido eliminados
 @api_view(['GET'])
 def respaldo(request):
-  request.data.pop('password')
   response = { 
     'msg': 'Usuario eliminado exitosamente', 
     'data': request.data 
@@ -82,6 +81,7 @@ class UserAuditListCreateView(generics.ListCreateAPIView):
 class UserListView(generics.ListAPIView):
   queryset = User.objects.all()
   serializer_class = Users
+  
   
 # Trae a un usuario por el email
 class GetUserByEmail(APIView):
@@ -125,3 +125,31 @@ def delete_user(request, user_id):
   # Elimina el usuario
   user.delete()
   return Response({"message": "Usuario eliminado exitosamente.", "data": user_data}, status=status.HTTP_204_NO_CONTENT)
+
+
+class ProyectoListCreate(APIView):
+  def get(self, request):
+    proyectos = Proyecto.objects.all()
+    serializer = ProyectoSerializer(proyectos, many=True)
+    return Response(serializer.data)
+
+  def post(self, request):
+    serializer = ProyectoSerializer(data=request.data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+  
+class UserDocent(APIView):
+  def get(self, request):
+    users = User.objects.filter(role=2)
+    serializer = Users(users, many=True)
+    return Response(serializer.data)
+  
+
+class UserRespaldoListView(APIView):
+  def get(self, request):
+    users = UserRespaldo.objects.all()
+    serializer = UserRespaldoSerializer(users, many=True)
+    return Response(serializer.data)
